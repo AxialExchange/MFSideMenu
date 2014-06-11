@@ -564,6 +564,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                 [self rightMenuWillShow];
             }
         }
+        
     }
     
     if((self.menuState == MFSideMenuStateRightMenuOpen && self.panDirection == MFSideMenuPanDirectionLeft)
@@ -577,6 +578,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     } else if(self.panDirection == MFSideMenuPanDirectionRight) {
         [self handleRightPan:recognizer];
     }
+
 }
 
 - (void) handleRightPan:(UIPanGestureRecognizer *)recognizer {
@@ -628,7 +630,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         self.panDirection = MFSideMenuPanDirectionNone;
 	} else {
         [self setCenterViewControllerOffset:translatedPoint.x];
-    }
+
+        //Adjust the left menu alpha based on the centerview's offset
+        float offset = [self.centerViewController view].frame.origin.x / [self.centerViewController view].frame.size.width;
+        [self.leftMenuViewController view].alpha = offset;
+        
+//        NSLog(@"Pan offset x=%f", offset);
+   }
 }
 
 - (void) handleLeftPan:(UIPanGestureRecognizer *)recognizer {
@@ -679,6 +687,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         }
 	} else {
         [self setCenterViewControllerOffset:translatedPoint.x];
+        
+        //Adjust the left menu alpha based on the centerview's offset
+        float offset = [self.centerViewController view].frame.origin.x / [self.centerViewController view].frame.size.width;
+        [self.leftMenuViewController view].alpha = offset;
+        
+        //NSLog(@"Pan offset x=%f", offset);
     }
 }
 
