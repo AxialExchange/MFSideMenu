@@ -331,8 +331,13 @@ typedef enum {
         case MFSideMenuStateClosed: {
             [self sendStateEventNotification:MFSideMenuStateEventMenuWillClose];
             [self closeSideMenuCompletion:^{
-                [self.leftMenuViewController view].hidden = YES;
-                [self.rightMenuViewController view].hidden = YES;
+                
+                //[self.leftMenuViewController view].hidden = YES;
+                //[self.rightMenuViewController view].hidden = YES;
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self.leftMenuViewController view].alpha = 0.0;
+                    [self.rightMenuViewController view].alpha = 0.0;
+                }];
                 innerCompletion();
             }];
             break;
@@ -356,12 +361,20 @@ typedef enum {
 
 // these callbacks are called when the menu will become visible, not neccessarily when they will OPEN
 - (void)leftMenuWillShow {
-    [self.leftMenuViewController view].hidden = NO;
+//    [self.leftMenuViewController view].hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.leftMenuViewController view].alpha = 1.0;
+    }];
+
     [self.menuContainerView bringSubviewToFront:[self.leftMenuViewController view]];
 }
 
 - (void)rightMenuWillShow {
-    [self.rightMenuViewController view].hidden = NO;
+//    [self.rightMenuViewController view].hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.rightMenuViewController view].alpha = 1.0;
+    }];
+
     [self.menuContainerView bringSubviewToFront:[self.rightMenuViewController view]];
 }
 
@@ -599,6 +612,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             } else {
                 self.panGestureVelocity = 0;
                 [self setCenterViewControllerOffset:0 animated:YES completion:nil];
+                [self setMenuState:MFSideMenuStateClosed];
             }
         } else {
             BOOL hideMenu = (finalX > adjustedOrigin.x);
