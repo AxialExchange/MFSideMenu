@@ -9,7 +9,7 @@
 #import "MFSideMenuContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-///----
+///---- DirectionPanGestureRecognizer by LocoMike from http://stackoverflow.com/questions/7100884/uipangesturerecognizer-only-vertical-or-horizontal
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
 typedef enum {
