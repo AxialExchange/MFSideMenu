@@ -80,6 +80,7 @@ typedef enum {
 
 @interface MFSideMenuContainerViewController ()
 @property (nonatomic, strong) UIView *menuContainerView;
+@property (nonatomic, strong) UIView *overlayView;
 
 @property (nonatomic, assign) CGPoint panGestureOrigin;
 @property (nonatomic, assign) CGFloat panGestureVelocity;
@@ -146,6 +147,11 @@ typedef enum {
     self.menuAnimationMaxDuration = 0.4f;
     self.panMode = MFSideMenuPanModeDefault;
     self.viewHasAppeared = NO;
+    
+    self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 2000, 2000)];
+    self.overlayView.backgroundColor = [UIColor blackColor];
+    self.overlayView.alpha = 0.0;
+    [self.menuContainerView addSubview:self.overlayView];
 }
 
 - (void)setupMenuContainerView {
@@ -399,6 +405,7 @@ typedef enum {
                 [UIView animateWithDuration:0.3 animations:^{
                     [self.leftMenuViewController view].alpha = 0.0;
                     [self.rightMenuViewController view].alpha = 0.0;
+                    self.overlayView.alpha = 0.0;
                 }];
                 innerCompletion();
             }];
@@ -426,6 +433,7 @@ typedef enum {
 //    [self.leftMenuViewController view].hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
         [self.leftMenuViewController view].alpha = 1.0;
+        self.overlayView.alpha = 0.2;
     }];
 
     [self.menuContainerView bringSubviewToFront:[self.leftMenuViewController view]];
@@ -435,6 +443,7 @@ typedef enum {
 //    [self.rightMenuViewController view].hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
         [self.rightMenuViewController view].alpha = 1.0;
+        self.overlayView.alpha = 0.2;
     }];
 
     [self.menuContainerView bringSubviewToFront:[self.rightMenuViewController view]];
@@ -703,6 +712,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         //Adjust the left menu alpha based on the centerview's offset
         float offset = [self.centerViewController view].frame.origin.x / [self.centerViewController view].frame.size.width;
         [self.leftMenuViewController view].alpha = offset;
+        self.overlayView.alpha = offset * 0.2;
+
         
 //        NSLog(@"Pan offset x=%f", offset);
    }
