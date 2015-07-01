@@ -604,11 +604,15 @@ typedef enum {
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
 shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-//    NSLog(@"gestureRecognizer=%p other=%p", gestureRecognizer, otherGestureRecognizer);
-    
-    if ([NSStringFromClass([otherGestureRecognizer.view class]) isEqualToString:@"TopbarCollectionView"]) {
-        return NO;
+    id other = otherGestureRecognizer.view;
+    if ([other respondsToSelector:@selector(overrideMFSideMenu)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        return ![other performSelector:NSSelectorFromString(@"overrideMFSideMenu") withObject:nil];
+#pragma clang diagnostic pop
     }
+    
+//    NSLog(@"gestureRecognizer=%p other=%p class='%@'", gestureRecognizer, otherGestureRecognizer, NSStringFromClass([otherGestureRecognizer.view class]));
     
 	return YES;
 }
