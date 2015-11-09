@@ -11,25 +11,25 @@
 
 extern NSString * const MFSideMenuStateNotificationEvent;
 
-typedef enum {
+typedef NS_OPTIONS(unsigned int, MFSideMenuPanMode) {
     MFSideMenuPanModeNone = 0, // pan disabled
     MFSideMenuPanModeCenterViewController = 1 << 0, // enable panning on the centerViewController
     MFSideMenuPanModeSideMenu = 1 << 1, // enable panning on side menus
     MFSideMenuPanModeDefault = MFSideMenuPanModeCenterViewController | MFSideMenuPanModeSideMenu
-} MFSideMenuPanMode;
+};
 
-typedef enum {
+typedef NS_ENUM(unsigned int, MFSideMenuState) {
     MFSideMenuStateClosed, // the menu is closed
     MFSideMenuStateLeftMenuOpen, // the left-hand menu is open
     MFSideMenuStateRightMenuOpen // the right-hand menu is open
-} MFSideMenuState;
+};
 
-typedef enum {
+typedef NS_ENUM(unsigned int, MFSideMenuStateEvent) {
     MFSideMenuStateEventMenuWillOpen, // the menu is going to open
     MFSideMenuStateEventMenuDidOpen, // the menu finished opening
     MFSideMenuStateEventMenuWillClose, // the menu is going to close
     MFSideMenuStateEventMenuDidClose // the menu finished closing
-} MFSideMenuStateEvent;
+};
 
 
 @interface MFSideMenuContainerViewController : UIViewController<UIGestureRecognizerDelegate>
@@ -70,6 +70,6 @@ typedef enum {
 - (void)setRightMenuWidth:(CGFloat)rightMenuWidth animated:(BOOL)animated;
 
 // can be used to attach a pan gesture recognizer to a custom view
-- (UIPanGestureRecognizer *)panGestureRecognizer;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) UIPanGestureRecognizer *panGestureRecognizer;
 
 @end
