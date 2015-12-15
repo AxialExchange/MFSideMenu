@@ -315,7 +315,7 @@ typedef NS_ENUM(unsigned int, MFSideMenuPanDirection) {
 
 - (void)addGestureRecognizers {
     [self addCenterGestureRecognizers];
-    [menuContainerView addGestureRecognizer:[self panGestureRecognizer]];
+    [menuContainerView addGestureRecognizer:self.panGestureRecognizer];
 }
 
 - (void)removeCenterGestureRecognizers
@@ -323,7 +323,7 @@ typedef NS_ENUM(unsigned int, MFSideMenuPanDirection) {
     if (self.centerViewController)
     {
         [[self.centerViewController view] removeGestureRecognizer:[self centerTapGestureRecognizer]];
-        [[self.centerViewController view] removeGestureRecognizer:[self panGestureRecognizer]];
+        [[self.centerViewController view] removeGestureRecognizer:self.panGestureRecognizer];
     }
 }
 - (void)addCenterGestureRecognizers
@@ -331,7 +331,7 @@ typedef NS_ENUM(unsigned int, MFSideMenuPanDirection) {
     if (self.centerViewController)
     {
         [[self.centerViewController view] addGestureRecognizer:[self centerTapGestureRecognizer]];
-        [[self.centerViewController view] addGestureRecognizer:[self panGestureRecognizer]];
+        [[self.centerViewController view] addGestureRecognizer:self.panGestureRecognizer];
     }
 }
 
